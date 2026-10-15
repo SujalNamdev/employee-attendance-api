@@ -1,0 +1,12 @@
+# Hide environment files and secrets
+
+.env
+.env.*
+!.env.example
+
+# Ignore Python cache and virtual environments
+
+**pycache**/
+*.py[cod]
+.venv/
+venv/
