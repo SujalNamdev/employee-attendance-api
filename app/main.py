@@ -34,7 +34,6 @@ db.attendance_logs.create_index([
     ("emp_code", 1)
 ])
 
-# //////////////////
 print("MongoDB database:", db.name)
 print("Employees found:", db.employees.count_documents({}))
 
@@ -135,18 +134,6 @@ def create_employee(body: EmployeeIn):
     return doc
 
 
-# @app.get("/employees")
-# def list_employees(department: Optional[str] = None, page: int = 1, page_size: int = 20):
-#     q = {}
-#     if department:
-#         q["department"] = department
-#     skip = (page - 1) * page_size
-#     total = db.employees.count_documents(q)
-#     print("Employee query:", list(db.employees.find(q, {"_id": 0, "emp_code": 1})))
-#     items = list(db.employees.find(q, {"_id": 0}).sort("emp_code", 1).skip(skip).limit(page_size))
-#     return {"items": items, "total": total, "page": page, "page_size": page_size}
-
-
 @app.get("/employees")
 def list_employees(
     department: Optional[str] = None,
@@ -177,7 +164,7 @@ def list_employees(
 @app.post("/attendance/punch-in", status_code=201)
 def punch_in(body: PunchInIn):
     emp = db.employees.find_one({"emp_code": body.emp_code})
-    # ****************************
+
     if emp is None:
       raise HTTPException(status_code=404, detail="Employee not found")
     
