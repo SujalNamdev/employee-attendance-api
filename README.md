@@ -5,14 +5,14 @@ A REST API built with Python, FastAPI, and MongoDB for employee management, atte
 ## Features
 
 - Create and list employee records.
-- Record employee punch-in and punch-out.
-- Calculate attendance values according to business rules.
-- List attendance records with pagination and filtering.
+- Record employee punch-in and punch-out events.
+- Calculate attendance metrics according to defined business rules.
+- Retrieve attendance records with filtering and pagination.
 - Correct attendance records with an audit trail.
-- Generate employee and department analytics.
-- Rank employees by late minutes.
-- Generate department attendance trends.
-- Inspect MongoDB query plans using explain functionality.
+- Generate employee monthly analytics.
+- Generate department summaries and attendance trends.
+- Rank employees by total late minutes.
+- Inspect MongoDB query execution plans using the explain functionality.
 
 ## Technology Stack
 
@@ -37,8 +37,6 @@ candidate_kit/
 └── sample_seed.py
 ```
 
-The exact files included may vary according to the supplied candidate kit.
-
 ## Prerequisites
 
 - Python installed on your computer.
@@ -57,7 +55,7 @@ python -m pip install -r requirements.txt
 
 Create a `.env` file in the project root directory.
 
-Configure the following environment variables:
+Add the following environment variables:
 
 ```env
 MONGO_URI=your_mongodb_connection_string
@@ -66,27 +64,29 @@ MONGO_DB=attendance_db
 
 Replace `your_mongodb_connection_string` with your actual MongoDB connection string.
 
-Keep `.env` private. Do not commit database credentials or other secrets to GitHub.
+Keep the `.env` file private. Never commit database credentials or other secrets to GitHub.
 
 ## Seed Data
 
-If the supplied seed script is available, run:
+The project includes a sample seed script for loading sample employees and attendance records.
+
+To load the sample data, run the following command from the project root directory:
 
 ```bash
 python sample_seed.py
 ```
 
-Use the provided sample data and follow the assignment instructions for loading it into MongoDB.
+Run the seed script when setting up the database with the provided sample data. Avoid running it repeatedly unless the script is designed to handle repeated execution safely.
 
-## Run the API
+## Running the API
 
-From the project root directory, run:
+From the project root directory, start the application using:
 
 ```bash
 python -m uvicorn app.main:app --port 8000
 ```
 
-The local API address is:
+The API will be available at:
 
 ```text
 http://127.0.0.1:8000
@@ -94,12 +94,12 @@ http://127.0.0.1:8000
 
 ## API Documentation
 
-When the server is running, open:
+When the server is running, access the following documentation:
 
-- Swagger UI: `http://127.0.0.1:8000/docs`
-- OpenAPI JSON: `http://127.0.0.1:8000/openapi.json`
+- **Swagger UI:** http://127.0.0.1:8000/docs
+- **OpenAPI JSON:** http://127.0.0.1:8000/openapi.json
 
-Use Swagger UI to inspect and test the available endpoints.
+Swagger UI can be used to explore the available endpoints and inspect their request and response schemas.
 
 ## Main API Areas
 
@@ -109,7 +109,7 @@ Create and retrieve employee records.
 
 ### Attendance Management
 
-Record punch-in and punch-out events, retrieve attendance records, and apply manual corrections.
+Record punch-in and punch-out events, retrieve attendance records, and apply manual corrections with an audit trail.
 
 ### Analytics
 
@@ -117,30 +117,32 @@ Retrieve employee monthly analytics, department summaries, late-arrival rankings
 
 ### Query Plan Inspection
 
-Inspect MongoDB execution plans and statistics through the admin explain endpoint.
+Inspect MongoDB query execution plans and execution statistics through the admin explain endpoint.
 
 ## Database Design
 
-The application uses two primary collections:
+The application uses two primary MongoDB collections:
 
 - `employees`
 - `attendance_logs`
 
-The `attendance_logs` collection identifies a record using an employee code and an attendance date. Database indexes should support the API's query patterns and duplicate-prevention requirements.
+The `attendance_logs` collection stores employee attendance records identified by employee code and attendance date.
+
+Database indexes support common query patterns and help enforce duplicate-prevention requirements.
 
 ## Documentation
 
-- `REVIEW.md` describes code-review findings and recommendations.
+- `REVIEW.md` contains code-review findings and recommendations.
 - `DECISIONS.md` explains the main design choices and trade-offs.
 
 ## Security Notes
 
-- Never commit `.env` or database credentials.
+- Never commit `.env` files or database credentials.
 - Avoid exposing database connection strings in logs or error responses.
 - Configure MongoDB network access and database permissions appropriately.
 
-## Testing
+## Verification
 
-Run the API and test its endpoints through Swagger UI. Validate successful operations, invalid inputs, duplicate attendance attempts, manual correction history, analytics calculations, and MongoDB query plans.
+The API was checked through Swagger UI and local endpoint execution. Verification covered employee management, attendance operations, business-rule calculations, manual corrections and audit history, analytics endpoints, and MongoDB query execution plans.
 
-The implementation should be checked against the supplied OpenAPI contract and business rules before submission.
+The implementation should remain consistent with the supplied OpenAPI contract and business rules.
